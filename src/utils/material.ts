@@ -44,40 +44,44 @@ export interface IMaterialDynamicColorsTheme {
   dark: IMaterialDynamicColorsThemeColor
 }
 
-import { themeFromSourceColor, themeFromImage, argbFromHex, hexFromArgb, Theme } from "@material/material-color-utilities";
+import { themeFromSourceColor, themeFromImage, argbFromHex, rgbaFromArgb, Theme } from "@material/material-color-utilities";
 
 function themeToJson({ palettes, schemes }: Theme) {
   let json = JSON.parse(JSON.stringify(schemes));
+  const rgb = (argb: number) => {
+    const { r, g, b } = rgbaFromArgb(argb);
+    return `${r}, ${g}, ${b}`;
+  };
 
   for(let i in json)
     for (let j in json[i])
-      json[i][j] = hexFromArgb(json[i][j]);
+      json[i][j] = rgb(json[i][j]);
 
-  json.dark.surfaceDim = hexFromArgb(palettes.neutral.tone(6));
-  json.dark.surface = hexFromArgb(palettes.neutral.tone(6));
-  json.dark.surfaceBright = hexFromArgb(palettes.neutral.tone(24));
-  json.dark.surfaceContainerLowest = hexFromArgb(palettes.neutral.tone(4));
-  json.dark.surfaceContainerLow = hexFromArgb(palettes.neutral.tone(10));
-  json.dark.surfaceContainer = hexFromArgb(palettes.neutral.tone(12));
-  json.dark.surfaceContainerHigh = hexFromArgb(palettes.neutral.tone(17));
-  json.dark.surfaceContainerHighest = hexFromArgb(palettes.neutral.tone(22));
-  json.dark.onSurface = hexFromArgb(palettes.neutral.tone(90));
-  json.dark.onSurfaceVariant = hexFromArgb(palettes.neutralVariant.tone(80));
-  json.dark.outline = hexFromArgb(palettes.neutralVariant.tone(60));
-  json.dark.outlineVariant = hexFromArgb(palettes.neutralVariant.tone(30));
+  json.dark.surfaceDim = rgb(palettes.neutral.tone(6));
+  json.dark.surface = rgb(palettes.neutral.tone(6));
+  json.dark.surfaceBright = rgb(palettes.neutral.tone(24));
+  json.dark.surfaceContainerLowest = rgb(palettes.neutral.tone(4));
+  json.dark.surfaceContainerLow = rgb(palettes.neutral.tone(10));
+  json.dark.surfaceContainer = rgb(palettes.neutral.tone(12));
+  json.dark.surfaceContainerHigh = rgb(palettes.neutral.tone(17));
+  json.dark.surfaceContainerHighest = rgb(palettes.neutral.tone(22));
+  json.dark.onSurface = rgb(palettes.neutral.tone(90));
+  json.dark.onSurfaceVariant = rgb(palettes.neutralVariant.tone(80));
+  json.dark.outline = rgb(palettes.neutralVariant.tone(60));
+  json.dark.outlineVariant = rgb(palettes.neutralVariant.tone(30));
 
-  json.light.surfaceDim = hexFromArgb(palettes.neutral.tone(87));
-  json.light.surface = hexFromArgb(palettes.neutral.tone(98));
-  json.light.surfaceBright = hexFromArgb(palettes.neutral.tone(98));
-  json.light.surfaceContainerLowest = hexFromArgb(palettes.neutral.tone(100));
-  json.light.surfaceContainerLow = hexFromArgb(palettes.neutral.tone(96));
-  json.light.surfaceContainer = hexFromArgb(palettes.neutral.tone(94));
-  json.light.surfaceContainerHigh = hexFromArgb(palettes.neutral.tone(92));
-  json.light.surfaceContainerHighest = hexFromArgb(palettes.neutral.tone(90));
-  json.light.onSurface = hexFromArgb(palettes.neutral.tone(10));
-  json.light.onSurfaceVariant = hexFromArgb(palettes.neutralVariant.tone(30));
-  json.light.outline = hexFromArgb(palettes.neutralVariant.tone(50));
-  json.light.outlineVariant = hexFromArgb(palettes.neutralVariant.tone(80));
+  json.light.surfaceDim = rgb(palettes.neutral.tone(87));
+  json.light.surface = rgb(palettes.neutral.tone(98));
+  json.light.surfaceBright = rgb(palettes.neutral.tone(98));
+  json.light.surfaceContainerLowest = rgb(palettes.neutral.tone(100));
+  json.light.surfaceContainerLow = rgb(palettes.neutral.tone(96));
+  json.light.surfaceContainer = rgb(palettes.neutral.tone(94));
+  json.light.surfaceContainerHigh = rgb(palettes.neutral.tone(92));
+  json.light.surfaceContainerHighest = rgb(palettes.neutral.tone(90));
+  json.light.onSurface = rgb(palettes.neutral.tone(10));
+  json.light.onSurfaceVariant = rgb(palettes.neutralVariant.tone(30));
+  json.light.outline = rgb(palettes.neutralVariant.tone(50));
+  json.light.outlineVariant = rgb(palettes.neutralVariant.tone(80));
 
   return json;
 }
