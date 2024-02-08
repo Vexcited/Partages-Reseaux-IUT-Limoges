@@ -39,5 +39,5 @@ export const [store, setStore] = createStore({
   path: "",
   files: null as (null | FileEntry[]),
   error: null as (null | string),
-  loading: true
+  loading: false
 });
