@@ -2,6 +2,7 @@ import type { APIHandler } from "@solidjs/start/server";
 
 import { FortiGateWebSSLVPN } from "fortigate-web-sslvpn";
 import { U_VPN_ORIGIN, SMB_IUT, SMB_USER, SMB_DOMAIN } from "~/utils/constants";
+import { serializeFiles } from "~/utils/files";
 
 export const POST: APIHandler = async ({ request }) => {
   const body = await request.json()
@@ -22,5 +23,5 @@ export const POST: APIHandler = async ({ request }) => {
   const vpn = new FortiGateWebSSLVPN(vpn_token, U_VPN_ORIGIN);
   const files = await vpn.readDirectoryFromSMB(path, SMB_DOMAIN, smb_token);
   
-  return files;
+  return serializeFiles(files);
 }
