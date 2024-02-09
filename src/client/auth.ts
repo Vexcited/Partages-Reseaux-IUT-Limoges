@@ -7,7 +7,8 @@ export const initAuth = async (shouldStoreCredentials: boolean) => {
 
   if (shouldStoreCredentials) {
     storeCredentials();
-  } else localStorage.clear();
+  }
+  else localStorage.clear();
 
   const response = await fetch("/api/init-smb", {
     method: "POST",
@@ -95,4 +96,4 @@ export const logoutAuth = async (willLogAgain = false) => {
       smb_token: null
     }
   });
-}
+};

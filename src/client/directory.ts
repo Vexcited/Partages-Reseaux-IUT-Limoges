@@ -3,7 +3,7 @@ import type { SerializedFileEntry } from "~/utils/files";
 
 export const handleEnterDirectory = async (fullPath: string, previousPath: string, usingPreviousPath = false): Promise<void> => {
   setStore("loading", true);
-  
+
   const response = await fetch("/api/read-smb", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -20,14 +20,14 @@ export const handleEnterDirectory = async (fullPath: string, previousPath: strin
         files: null,
         loading: false,
         error: await response.text(),
-        
+
         credentials: {
           ...store.credentials,
           vpn_token: null,
           smb_token: null
         }
       });
-  
+
       localStorage.removeItem("smb-session:cache");
       return;
     }
@@ -45,6 +45,6 @@ export const handleEnterDirectory = async (fullPath: string, previousPath: strin
     // Append +1 to remove the slash at the beginning.
     path: fullPath.slice(store.origin.length + 1)
   });
-  
+
   createCache();
-}
+};

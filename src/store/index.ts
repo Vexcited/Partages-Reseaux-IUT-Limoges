@@ -22,7 +22,7 @@ const readInitialCredentials = () => {
     credentials.password = password;
   }
 
-  return credentials
+  return credentials;
 };
 
 // Read the credentials stored on initial load.
@@ -49,7 +49,7 @@ export const createCache = () => {
     vpn_token: store.credentials.vpn_token!,
     origin: store.origin,
     path: store.path,
-    files,
+    files
   };
 
   localStorage.setItem("smb-session:cache", JSON.stringify(container));

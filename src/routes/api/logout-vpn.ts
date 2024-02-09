@@ -4,7 +4,7 @@ import { FortiGateWebSSLVPN } from "fortigate-web-sslvpn";
 import { U_VPN_ORIGIN } from "~/utils/constants";
 
 export const POST: APIHandler = async ({ request }) => {
-  const body = await request.json()
+  const body = await request.json();
   const { vpn_token } = body as { vpn_token?: string };
 
   if (!vpn_token) {

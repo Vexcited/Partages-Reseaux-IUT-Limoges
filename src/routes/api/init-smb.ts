@@ -5,7 +5,7 @@ import { U_VPN_ORIGIN, SMB_IUT, SMB_USER, SMB_DOMAIN } from "~/utils/constants";
 import { serializeFiles } from "~/utils/files";
 
 export const POST: APIHandler = async ({ request }) => {
-  const body = await request.json()
+  const body = await request.json();
   const { username, password, path } = body as {
     username?: string,
     password?: string,
@@ -30,5 +30,5 @@ export const POST: APIHandler = async ({ request }) => {
     vpn_token: vpn.token,
     smb_token: smb.token,
     files: serializeFiles(smb.files)
-  }
-}
+  };
+};

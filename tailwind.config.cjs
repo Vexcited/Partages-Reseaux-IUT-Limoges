@@ -4,7 +4,7 @@ module.exports = {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
     fontFamily: {
-      sans: 'Lexend, Arial, sans-serif'
+      sans: "Lexend, Arial, sans-serif"
     },
 
     extend: {
@@ -62,11 +62,11 @@ module.exports = {
         tertiaryFixed: "rgba(var(--tertiaryFixed), <alpha-value>)",
         tertiaryFixedDim: "rgba(var(--tertiaryFixedDim), <alpha-value>)",
         onTertiaryFixed: "rgba(var(--onTertiaryFixed), <alpha-value>)",
-        onTertiaryFixedVariant: "rgba(var(--onTertiaryFixedVariant), <alpha-value>)",
-      },
+        onTertiaryFixedVariant: "rgba(var(--onTertiaryFixedVariant), <alpha-value>)"
+      }
     }
   },
   plugins: [
-    require('@corvu/tailwind')
-  ],
+    require("@corvu/tailwind")
+  ]
 };
