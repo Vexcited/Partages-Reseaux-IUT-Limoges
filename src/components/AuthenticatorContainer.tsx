@@ -4,81 +4,37 @@ import { setStore, store, storeCredentials, createCache } from "~/store";
 import { SMB_IUT, SMB_USER } from "~/utils/constants";
 
 import MdiCheck from '~icons/mdi/check'
+import { initAuth, logoutAuth } from "~/client/auth";
 
 const AuthenticatorContainer: Component = () => {
-  const [shouldStoreCredentials, setStoreCredentials] = createSignal(false);
+  const [shouldStoreCredentials, setStoreCredentials] = createSignal(localStorage.getItem("credentials") !== null);
 
   const handleAuthentication = async (event: SubmitEvent) => {
     event.preventDefault();
-    setStore("loading", true);
-
-    // Since connection is successful, we can store the credentials.
-    if (shouldStoreCredentials()) {
-      storeCredentials();
-    } else localStorage.clear();
-
-    const response = await fetch("/api/init-smb", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: store.credentials.username,
-        password: store.credentials.password,
-        path: store.origin + "/" + store.path
-      })
-    });
-
-    if (response.status !== 200) {
-      const error = await response.text();
-      localStorage.clear();
-
-      setStore({
-        loading: false,
-
-        error,
-        files: null
-      });
-
-      return;
-    }
-
-    const json = await response.json() as {
-      vpn_token: string,
-      smb_token: string,
-      files: SerializedFileEntry[]
-    };
-
-    setStore({
-      loading: false,
-
-      error: null,
-      files: json.files,
-
-      credentials: {
-        ...store.credentials,
-        vpn_token: json.vpn_token,
-        smb_token: json.smb_token
-      }
-    });
-
-    createCache();
+    await initAuth(shouldStoreCredentials());
   };
+
+  const handleOriginChange = async (origin: string, path = "") => {
+    if (store.credentials.vpn_token) {
+      await logoutAuth(true);
+      setStore({ origin, path });
+      await initAuth(shouldStoreCredentials());
+    }
+    // Just change the origin and path if the user is not authenticated.
+    else setStore({ origin, path });
+  }
 
   return (
     <div class="bg-surfaceContainer max-w-[450px] w-full mx-auto rounded-lg flex flex-col border border-outline">
-      <div class="flex flex-shrink-0 border-b border-outline">
+      <div class="flex flex-shrink-0 border-b border-outline divide-x divide-outline">
         <button
           type="button"
-          class="outline-none px-3 py-4 rounded-l-lg w-full border-r border-outline flex items-center justify-center gap-2"
+          class="outline-none px-3 py-4 rounded-l-lg w-full flex items-center justify-center gap-2"
           classList={{
             "text-onSecondaryContainer bg-secondaryContainer/40": store.origin.startsWith(SMB_USER),
             "text-onSurface bg-transparent": !store.origin.startsWith(SMB_USER),
           }}
-          onClick={() => {
-            setStore({
-              origin: SMB_USER + "/" + store.credentials.username,
-              path: ""
-            });
-          }}
+          onClick={() => handleOriginChange(SMB_USER + "/" + store.credentials.username)}
         >
           <Show when={store.origin.startsWith(SMB_USER)}>
             <MdiCheck />
@@ -92,12 +48,7 @@ const AuthenticatorContainer: Component = () => {
             "text-onSecondaryContainer bg-secondaryContainer/40": store.origin === SMB_IUT,
             "text-onSurface bg-transparent": store.origin !== SMB_IUT,
           }}
-          onClick={() => {
-            setStore({
-              origin: SMB_IUT,
-              path: "pedagogie/pedago-iut"
-            });
-          }}
+          onClick={() => handleOriginChange(SMB_IUT, "pedagogie/pedago-iut")}
         >
           <Show when={store.origin === SMB_IUT}>
             <MdiCheck />
@@ -106,7 +57,7 @@ const AuthenticatorContainer: Component = () => {
         </button>
       </div>
 
-      <Show when={!store.credentials.vpn_token && !store.credentials.vpn_token}
+      <Show when={!store.credentials.vpn_token && !store.credentials.smb_token}
         fallback={(
           <div class="flex items-center justify-between p-4">
             <p class="text-sm">
@@ -114,23 +65,8 @@ const AuthenticatorContainer: Component = () => {
             </p>
             <button
               type="button"
-              class="px-4 py-1.5 text-sm rounded-lg border border-outline text-onPrimaryContainer hover:bg-primary hover:text-onPrimary"
-              onClick={() => {
-                localStorage.removeItem("smb-session:cache");
-
-                setStore({
-                  path: store.origin === SMB_IUT ? "pedagogie/pedago-iut" : "",
-                  files: null,
-                  error: null,
-                  loading: false,
-
-                  credentials: {
-                    ...store.credentials,
-                    vpn_token: null,
-                    smb_token: null
-                  }
-                });
-              }}
+              class="px-4 py-1.5 text-sm rounded-lg border border-outline text-onSurface hover:bg-primary hover:text-onPrimary"
+              onClick={() => logoutAuth()}
             >
               Déconnecter
             </button>

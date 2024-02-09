@@ -1,7 +1,7 @@
 import { createCache, setStore, store } from "~/store";
 import type { SerializedFileEntry } from "~/utils/files";
 
-export const handleEnterDirectory = async (fullPath: string): Promise<void> => {
+export const handleEnterDirectory = async (fullPath: string, previousPath: string, usingPreviousPath = false): Promise<void> => {
   setStore("loading", true);
   
   const response = await fetch("/api/read-smb", {
@@ -15,13 +15,26 @@ export const handleEnterDirectory = async (fullPath: string): Promise<void> => {
   });
 
   if (response.status !== 200) {
-    setStore({
-      loading: false,
-      error: await response.text(),
-      files: null
-    });
-
-    return;
+    if (usingPreviousPath) {
+      setStore({
+        files: null,
+        loading: false,
+        error: await response.text(),
+        
+        credentials: {
+          ...store.credentials,
+          vpn_token: null,
+          smb_token: null
+        }
+      });
+  
+      localStorage.removeItem("smb-session:cache");
+      return;
+    }
+    else { // go back to the previous path.
+      await handleEnterDirectory(previousPath, "", true);
+      return;
+    }
   }
 
   const json = await response.json() as SerializedFileEntry[];
