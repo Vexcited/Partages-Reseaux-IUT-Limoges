@@ -1,5 +1,6 @@
-import type { FileEntry } from "fortigate-web-sslvpn";
-import { createStore } from "solid-js/store";
+import type { SerializedFileEntry } from "~/utils/files";
+import { createStore, unwrap } from "solid-js/store";
+import { SMB_IUT } from "~/utils/constants";
 
 export const clearStoredCredentials = () => {
   localStorage.removeItem("credentials");
@@ -27,17 +28,61 @@ const readInitialCredentials = () => {
 // Read the credentials stored on initial load.
 const initialCredentials = readInitialCredentials();
 
+export interface CacheContainer {
+  time: number;
+  username: string;
+  path: string;
+  origin: string;
+  vpn_token: string;
+  smb_token: string;
+  files: SerializedFileEntry[];
+}
+
+export const createCache = () => {
+  const files = unwrap(store.files);
+  if (!files) return;
+
+  const container: CacheContainer = {
+    time: Date.now(),
+    username: store.credentials.username,
+    smb_token: store.credentials.smb_token!,
+    vpn_token: store.credentials.vpn_token!,
+    origin: store.origin,
+    path: store.path,
+    files,
+  };
+
+  localStorage.setItem("smb-session:cache", JSON.stringify(container));
+};
+
+const readCurrentCache = (): CacheContainer | null => {
+  const container = localStorage.getItem("smb-session:cache");
+  if (!container) return null;
+
+  const parsed = JSON.parse(container) as CacheContainer;
+  // if time is less than 5 minutes, we keep the files.
+  if (Date.now() - parsed.time < 300000) {
+    return parsed;
+  }
+
+  localStorage.removeItem("smb-session:cache");
+  return null;
+};
+
+// Read the files stored on initial load.
+const initialCache = readCurrentCache();
+
 export const [store, setStore] = createStore({
   credentials: {
-    username: initialCredentials.username,
+    username: initialCache?.username ?? initialCredentials.username,
     password: initialCredentials.password,
-    vpn_token: null as (null | string),
-    smb_token: null as (null | string)
+    vpn_token: initialCache?.vpn_token ?? null,
+    smb_token: initialCache?.smb_token ?? null
   },
 
-  origin: "",
-  path: "",
-  files: null as (null | FileEntry[]),
+  origin: initialCache?.origin ?? SMB_IUT,
+  path: initialCache?.path ?? "pedagogie/pedago-iut",
+  files: initialCache?.files ?? null,
   error: null as (null | string),
   loading: false
 });
