@@ -1,0 +1,43 @@
+import { materialDynamicColors } from "./material";
+
+export const initializeTheme = async () => {
+  const { dark } = await materialDynamicColors("#f87171");
+  const root = document.querySelector(':root') as HTMLElement;
+
+  root.style.setProperty("--primary", dark.primary);
+  root.style.setProperty("--onPrimary", dark.onPrimary);
+  root.style.setProperty("--primaryContainer", dark.primaryContainer);
+  root.style.setProperty("--onPrimaryContainer", dark.onPrimaryContainer);
+  root.style.setProperty("--secondary", dark.secondary);
+  root.style.setProperty("--onSecondary", dark.onSecondary);
+  root.style.setProperty("--secondaryContainer", dark.secondaryContainer);
+  root.style.setProperty("--onSecondaryContainer", dark.onSecondaryContainer);
+  root.style.setProperty("--tertiary", dark.tertiary);
+  root.style.setProperty("--onTertiary", dark.onTertiary);
+  root.style.setProperty("--tertiaryContainer", dark.tertiaryContainer);
+  root.style.setProperty("--onTertiaryContainer", dark.onTertiaryContainer);
+  root.style.setProperty("--error", dark.error);
+  root.style.setProperty("--onError", dark.onError);
+  root.style.setProperty("--errorContainer", dark.errorContainer);
+  root.style.setProperty("--onErrorContainer", dark.onErrorContainer);
+  root.style.setProperty("--background", dark.background);
+  root.style.setProperty("--onBackground", dark.onBackground);
+  root.style.setProperty("--surface", dark.surface);
+  root.style.setProperty("--onSurface", dark.onSurface);
+  root.style.setProperty("--surfaceVariant", dark.surfaceVariant);
+  root.style.setProperty("--onSurfaceVariant", dark.onSurfaceVariant);
+  root.style.setProperty("--outline", dark.outline);
+  root.style.setProperty("--outlineVariant", dark.outlineVariant);
+  root.style.setProperty("--shadow", dark.shadow);
+  root.style.setProperty("--scrim", dark.scrim);
+  root.style.setProperty("--inverseSurface", dark.inverseSurface);
+  root.style.setProperty("--inverseOnSurface", dark.inverseOnSurface);
+  root.style.setProperty("--inversePrimary", dark.inversePrimary);
+  root.style.setProperty("--surfaceDim", dark.surfaceDim);
+  root.style.setProperty("--surfaceBright", dark.surfaceBright);
+  root.style.setProperty("--surfaceContainerLowest", dark.surfaceContainerLowest);
+  root.style.setProperty("--surfaceContainerLow", dark.surfaceContainerLow);
+  root.style.setProperty("--surfaceContainer", dark.surfaceContainer);
+  root.style.setProperty("--surfaceContainerHigh", dark.surfaceContainerHigh);
+  root.style.setProperty("--surfaceContainerHighest", dark.surfaceContainerHighest);
+};
