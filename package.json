@@ -8,6 +8,7 @@
   "dependencies": {
     "@fontsource/lexend": "^5.0.18",
     "@material/material-color-utilities": "^0.2.7",
+    "@solid-primitives/media": "^2.2.6",
     "@solidjs/router": "^0.11.5",
     "@solidjs/start": "^0.5.4",
     "corvu": "^0.4.1",

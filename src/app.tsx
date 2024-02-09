@@ -6,12 +6,14 @@ import "~/styles/globals.css";
 // @refresh reload
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start";
-import { type Component, Suspense, onMount } from "solid-js";
+import { type Component, Suspense, createEffect, on } from "solid-js";
 
-import { initializeTheme } from "~/utils/theme";
+import { pushThemeToCSS } from "~/utils/theme";
+import { shouldUseDarkTheme } from "./store/theme";
 
 const App: Component = () => {
-  onMount(() => initializeTheme());
+  // Push the theme to the CSS variables.
+  createEffect(on(shouldUseDarkTheme, (isDark) => pushThemeToCSS(isDark)));
 
   return (
     <Router root={(props) => <Suspense>{props.children}</Suspense>}>
