@@ -2,8 +2,8 @@ import { type Component } from "solid-js";
 import { createCache, setStore, store } from "~/store";
 import { SerializedFileEntry } from "~/utils/files";
 
-import MdiFolder from '~icons/mdi/folder';
-import MdiFile from '~icons/mdi/file';
+import MdiFolder from "~icons/mdi/folder";
+import MdiFile from "~icons/mdi/file";
 import { handleEnterDirectory } from "~/client/directory";
 
 const Entry: Component<SerializedFileEntry> = (entry) => {
@@ -15,7 +15,7 @@ const Entry: Component<SerializedFileEntry> = (entry) => {
       {entry.isDirectory ? <MdiFolder /> : <MdiFile />}
       <span>{entry.name}</span>
     </a>
-  )
+  );
 };
 
 export default Entry;

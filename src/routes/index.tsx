@@ -4,7 +4,7 @@ import { store } from "~/store";
 import AuthenticatorContainer from "~/components/AuthenticatorContainer";
 import Entry from "~/components/Entry";
 import { handleEnterDirectory } from "~/client/directory";
-import MdiSlashForward from '~icons/mdi/slash-forward'
+import MdiSlashForward from "~icons/mdi/slash-forward";
 const Page: Component = () => {
   const pathParts = createMemo(() => store.path.split("/"));
 
@@ -15,11 +15,11 @@ const Page: Component = () => {
       <AuthenticatorContainer />
 
       <Show when={store.files}>
-        {files => (
+        {(files) => (
           <div class="border border-outline rounded-lg mt-6 overflow-hidden max-w-[868px] w-full mx-auto relative">
             <Show when={store.loading}>
               <div class="absolute inset-0 bg-surfaceContainer flex items-center justify-center">
-                <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary"></div>
+                <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary" />
               </div>
             </Show>
 
@@ -62,7 +62,7 @@ const Page: Component = () => {
             </div>
             <div class="flex flex-col divide-y divide-outline/40">
               <For each={files()}>
-                {file => <Entry {...file} /> }
+                {(file) => <Entry {...file} /> }
               </For>
             </div>
           </div>

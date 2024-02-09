@@ -18,5 +18,8 @@
 		"paths": {
       "~/*": ["./src/*"]
     }
-	}
+	},
+
+  "include": ["src", "vite.config.ts", "postcss.config.cjs", "tailwind.config.cjs", "eslint.config.js"],
+  "exclude": ["node_modules", ".output", ".vinxi"]
 }

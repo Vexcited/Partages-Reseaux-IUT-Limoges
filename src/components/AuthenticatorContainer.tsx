@@ -3,7 +3,7 @@ import { type Component, Show, createSignal } from "solid-js";
 import { setStore, store, storeCredentials, createCache } from "~/store";
 import { SMB_IUT, SMB_USER } from "~/utils/constants";
 
-import MdiCheck from '~icons/mdi/check'
+import MdiCheck from "~icons/mdi/check";
 import { initAuth, logoutAuth } from "~/client/auth";
 
 const AuthenticatorContainer: Component = () => {
@@ -22,7 +22,7 @@ const AuthenticatorContainer: Component = () => {
     }
     // Just change the origin and path if the user is not authenticated.
     else setStore({ origin, path });
-  }
+  };
 
   return (
     <div class="bg-surfaceContainer max-w-[450px] w-full mx-auto rounded-lg flex flex-col border border-outline">
@@ -32,7 +32,7 @@ const AuthenticatorContainer: Component = () => {
           class="outline-none px-3 py-4 rounded-l-lg w-full flex items-center justify-center gap-2"
           classList={{
             "text-onSecondaryContainer bg-secondaryContainer/40": store.origin.startsWith(SMB_USER),
-            "text-onSurface bg-transparent": !store.origin.startsWith(SMB_USER),
+            "text-onSurface bg-transparent": !store.origin.startsWith(SMB_USER)
           }}
           onClick={() => handleOriginChange(SMB_USER + "/" + store.credentials.username)}
         >
@@ -46,7 +46,7 @@ const AuthenticatorContainer: Component = () => {
           class="outline-none px-3 py-4 rounded-r-lg w-full flex items-center justify-center gap-2"
           classList={{
             "text-onSecondaryContainer bg-secondaryContainer/40": store.origin === SMB_IUT,
-            "text-onSurface bg-transparent": store.origin !== SMB_IUT,
+            "text-onSurface bg-transparent": store.origin !== SMB_IUT
           }}
           onClick={() => handleOriginChange(SMB_IUT, "pedagogie/pedago-iut")}
         >
@@ -86,8 +86,8 @@ const AuthenticatorContainer: Component = () => {
               if (store.origin.startsWith(SMB_USER)) {
                 setStore("origin", SMB_USER + "/" + e.currentTarget.value);
               }
-              
-              setStore("credentials", "username", e.currentTarget.value)
+
+              setStore("credentials", "username", e.currentTarget.value);
             }}
           />
 
@@ -121,7 +121,7 @@ const AuthenticatorContainer: Component = () => {
         </form>
       </Show>
     </div>
-  )
+  );
 };
 
 export default AuthenticatorContainer;

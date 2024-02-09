@@ -1,16 +1,19 @@
 import typescript from "@typescript-eslint/parser";
 import stylistic from "@stylistic/eslint-plugin";
+import solid from "eslint-plugin-solid/configs/typescript.js";
 
 export default [
   { // Apply to `cjs`, `.mjs` and `.js` files.
     files: ["**/*.?([cm])js"]
   },
-  { // Apply to `cts`, `.mts` and `.ts` files.
-    files: ["**/*.?([cm])ts"],
+  { // Apply to `.ts` and `.tsx` files.
+    ignores: [".output/**", ".vinxi/**", "node_modules/**"],
+    files: ["**/*.{ts,tsx}"],
+    ...solid,
     languageOptions: {
       parser: typescript,
       parserOptions: {
-        sourceType: "module"
+        project: "tsconfig.json"
       }
     }
   },
