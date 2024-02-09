@@ -1,12 +1,16 @@
-import "./styles/globals.css";
+import "@fontsource/lexend/400.css";
+import "@fontsource/lexend/500.css";
+import "@fontsource/lexend/600.css";
+import "~/styles/globals.css";
 
 // @refresh reload
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start";
-import { Suspense, onMount } from "solid-js";
-import { initializeTheme } from "./utils/theme";
+import { type Component, Suspense, onMount } from "solid-js";
 
-export default function App() {
+import { initializeTheme } from "~/utils/theme";
+
+const App: Component = () => {
   onMount(() => initializeTheme());
 
   return (
@@ -14,4 +18,6 @@ export default function App() {
       <FileRoutes />
     </Router>
   );
-}
+};
+
+export default App;

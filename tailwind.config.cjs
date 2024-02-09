@@ -2,6 +2,10 @@
 module.exports = {
   content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
+    fontFamily: {
+      sans: 'Lexend, Arial, sans-serif'
+    },
+
     extend: {
       colors: {
         primary: "rgba(var(--primary), <alpha-value>)",
